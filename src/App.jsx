@@ -5,10 +5,9 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
 	return (
-		<div className="bg-slate-900 text-white min-h-screen w-full p-4">
+		<div className="bg-slate-900 text-white min-h-screen w-full p-4 scrollbar-thin scrollbar-thumb-blue-600">
 			<Navbar />
 			<Main />
-			{/* <Code /> */}
 			<Footer />
 		</div>
 	);

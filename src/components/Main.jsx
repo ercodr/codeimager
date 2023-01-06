@@ -77,7 +77,7 @@ const Main = () => {
 	return (
 		<main className="container mx-auto my-8 space-y-8">
 			<section className="flex justify-between flex-col gap-4 sm:flex-row p-4 lg:p-0">
-				<div className="flex gap-2">
+				<div className="flex gap-2 flex-col md:flex-row">
 					<select
 						defaultValue={"python"}
 						onChange={(e) => {
@@ -120,7 +120,7 @@ const Main = () => {
 					<select
 						defaultValue={"default"}
 						onChange={(e) => setTheme(themes[e.target.value])}
-						className="appearance-none rounded px-4 text-slate-100 bg-slate-900 border select-none outline-none cursor-pointer"
+						className="appearance-none rounded px-4 py-2 text-slate-100 bg-slate-900 border select-none outline-none cursor-pointer"
 					>
 						<option
 							value={"default"}
