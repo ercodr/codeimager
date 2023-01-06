@@ -1,12 +1,53 @@
 import { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+	dark,
+	a11yDark,
+	atomDark,
+	coldarkDark,
+	dracula,
+	duotoneDark,
+	funky,
+	oneDark,
+	pojoaque,
+	xonokai,
+	vscDarkPlus,
+	twilight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const Main = () => {
-	const themes = [dark];
+	const themesStr = [
+		"dark",
+		"a11yDark",
+		"atomDark",
+		"coldarkDark",
+		"dracula",
+		"duotoneDark",
+		"funky",
+		"oneDark",
+		"pojoaque",
+		"xonokai",
+		"vscDarkPlus",
+		"twilight",
+	];
+	const themes = [
+		dark,
+		a11yDark,
+		atomDark,
+		coldarkDark,
+		dracula,
+		duotoneDark,
+		funky,
+		oneDark,
+		pojoaque,
+		xonokai,
+		vscDarkPlus,
+		twilight,
+	];
 	const [langServer, setLangServer] = useState("python");
 	const [code, setCode] = useState("");
+	const [theme, setTheme] = useState(themes[0]);
 	const inputRef = useRef(null);
 
 	useEffect(() => {
@@ -59,6 +100,19 @@ const Main = () => {
 					<option value="javascript">JavaScript</option>
 					<option value="HTML">HTML</option>
 				</select>
+				<select
+					onChange={(e) => setTheme(themes[e.target.value])}
+					className="appearance-none rounded px-4 text-slate-900 outline-none"
+				>
+					{themesStr.map((item, index) => (
+						<option
+							key={item}
+							value={index}
+						>
+							{item}
+						</option>
+					))}
+				</select>
 				<button
 					onClick={onSaveClick}
 					className={`px-4 py-2 rounded select-none ${
@@ -90,7 +144,7 @@ const Main = () => {
 						</div>
 						<div className="p-4">
 							<SyntaxHighlighter
-								style={dark}
+								style={theme}
 								language={langServer}
 							>
 								{code}
