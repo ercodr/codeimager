@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+const keywords = ["function", "var", "if", "else"];
+const variables = /\b[a-zA-Z_][a-zA-Z0-9_]*\b/g;
+const comments = /\/\/.*|\/\*[\s\S]*?\*\//g;
 
 const Main = () => {
-	const themes = [dark];
-	const [langServer, setLangServer] = useState("python");
+	const [langServer, setLangServer] = useState(null);
 	const [code, setCode] = useState("");
 	const inputRef = useRef(null);
+
+	let highlightedCode = code;
 
 	useEffect(() => {
 		console.log(langServer);
@@ -39,6 +42,19 @@ const Main = () => {
 		inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
 	}, [code]);
 
+	highlightedCode = highlightedCode.replace(
+		comments,
+		(match) => `<span class="comment">${match}</span>`
+	);
+	highlightedCode = highlightedCode.replace(
+		keywords,
+		(match) => `<span class="keyword">${match}</span>`
+	);
+	highlightedCode = highlightedCode.replace(
+		variables,
+		(match) => `<span class="variable">${match}</span>`
+	);
+
 	return (
 		<main className="container mx-auto my-8 space-y-8">
 			<section className="flex justify-between flex-col gap-4 sm:flex-row p-4 lg:p-0">
@@ -55,8 +71,8 @@ const Main = () => {
 					>
 						Choose Language Server
 					</option>
-					<option value="python">Python</option>
-					<option value="javascript">JavaScript</option>
+					<option value="Python">Python</option>
+					<option value="JavaScript">JavaScript</option>
 					<option value="HTML">HTML</option>
 				</select>
 				<button
@@ -71,12 +87,12 @@ const Main = () => {
 
 			<section className="text-slate-900 flex gap-4 flex-col p-4 lg:p-0 lg:flex-row">
 				<textarea
-					ref={inputRef}
+					tabIndex={0}
 					placeholder="Paste your code here..."
 					onChange={(e) => {
 						setCode(() => e.target.value);
 					}}
-					className="w-full appearance-none resize-none bg-slate-100 rounded outline-none p-8 scrollbar-thin"
+					className="w-full appearance-none resize-none bg-slate-100 rounded outline-none p-8"
 				></textarea>
 				<div
 					ref={toImage}
@@ -88,14 +104,17 @@ const Main = () => {
 							<div className="bg-amber-500"></div>
 							<div className="bg-green-500"></div>
 						</div>
-						<div className="p-4">
-							<SyntaxHighlighter
-								style={dark}
-								language={langServer}
-							>
-								{code}
-							</SyntaxHighlighter>
-						</div>
+						<textarea
+							placeholder="code preview"
+							ref={inputRef}
+							disabled
+							defaultValue={code}
+							className="python resize-none selection:bg-transparent appearance-none bg-black text-slate-100 w-full rounded min-h-[20rem outline-none px-8 cursor-context-menu"
+						/>
+						{/* <pre className="text-white px-8 pb-6"> */}
+						{/* <code>{code}</code> */}
+						{/* <code dangerouslySetInnerHTML={{ __html: highlightedCode }} /> */}
+						{/* </pre> */}
 					</div>
 				</div>
 			</section>

@@ -8,6 +8,7 @@ const App = () => {
 		<div className="bg-slate-900 text-white min-h-screen w-full p-4">
 			<Navbar />
 			<Main />
+			{/* <Code /> */}
 			<Footer />
 		</div>
 	);
