@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	font-family: "Poppins";
+}
+
+.brand::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	/* background-color: rgb(218, 38, 83); */
+	width: 130px;
+	height: 10px;
+	transform: skew(-50deg, -5deg);
+	margin-top: 1.5rem;
+	transition: all;
+	transition-duration: 0.5s;
+}
+
+.brand:hover::before {
+	transform: skew(50deg, 5deg);
+}
+
+.brand {
+	position: relative;
+	z-index: 10;
+}
+
+.keyword {
+	color: blue;
+}
+
+.variable {
+	color: orange;
+}
+
+.comment {
+	color: green;
+}
