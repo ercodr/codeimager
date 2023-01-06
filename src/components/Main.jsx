@@ -45,16 +45,17 @@ const Main = () => {
 		vscDarkPlus,
 		twilight,
 	];
+	const toImage = useRef(null);
+
 	const [langServer, setLangServer] = useState("python");
 	const [code, setCode] = useState("");
+	const [width, setWidth] = useState(null);
 	const [theme, setTheme] = useState(themes[0]);
 	const inputRef = useRef(null);
 
 	useEffect(() => {
 		console.log(langServer);
 	}, [langServer]);
-
-	const toImage = useRef(null);
 
 	const onSaveClick = () => {
 		if (code === "") {
@@ -73,46 +74,70 @@ const Main = () => {
 			});
 	};
 
-	useEffect(() => {
-		// Reset height - important to shrink on delete
-		inputRef.current.style.height = "inherit";
-		// Set height
-		inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
-	}, [code]);
-
 	return (
 		<main className="container mx-auto my-8 space-y-8">
 			<section className="flex justify-between flex-col gap-4 sm:flex-row p-4 lg:p-0">
-				<select
-					defaultValue={"default"}
-					onChange={(e) => {
-						setLangServer(() => e.target.value);
-					}}
-					className="text-slate-900 outline-none px-4 py-2 rounded appearance-none"
-				>
-					<option
-						value={"default"}
-						disabled
+				<div className="flex gap-2">
+					<select
+						defaultValue={"python"}
+						onChange={(e) => {
+							setLangServer(() => e.target.value);
+						}}
+						className="text-slate-100 bg-slate-900 border select-none outline-none px-4 py-2 rounded appearance-none
+						scrollbar-thin scrollbar-thumb-blue-600"
 					>
-						Choose Language Server
-					</option>
-					<option value="python">Python</option>
-					<option value="javascript">JavaScript</option>
-					<option value="HTML">HTML</option>
-				</select>
-				<select
-					onChange={(e) => setTheme(themes[e.target.value])}
-					className="appearance-none rounded px-4 text-slate-900 outline-none"
-				>
-					{themesStr.map((item, index) => (
 						<option
-							key={item}
-							value={index}
+							value={"default"}
+							disabled
 						>
-							{item}
+							Language Support
 						</option>
-					))}
-				</select>
+						<option value="python">Python</option>
+						<option value="javascript">JavaScript</option>
+						<option value="typescript">TypeScript</option>
+						<option value="HTML">HTML</option>
+						<option value="django">Django</option>
+						<option value="json">JSON</option>
+						<option value="xml">XML</option>
+						<option value="sql">SQL</option>
+						<option value="scss">SCSS</option>
+						<option value="css">CSS</option>
+						<option value="php">PHP</option>
+						<option value="lua">Lua</option>
+						<option value="livescript">LiveScript</option>
+						<option value="markdown">Markdown</option>
+						<option value="perl">Perl</option>
+						<option value="ruby">Ruby</option>
+						<option value="java">Java</option>
+						<option value="c">C</option>
+						<option value="r">R</option>
+						<option value="c#">C#</option>
+						<option value="go">Go</option>
+						<option value="rust">Rust</option>
+						<option value="swift">Swift</option>
+						<option value="kotlin">Kotlin</option>
+					</select>
+					<select
+						defaultValue={"default"}
+						onChange={(e) => setTheme(themes[e.target.value])}
+						className="appearance-none rounded px-4 text-slate-100 bg-slate-900 border select-none outline-none cursor-pointer"
+					>
+						<option
+							value={"default"}
+							disabled
+						>
+							Switch theme
+						</option>
+						{themesStr.map((item, index) => (
+							<option
+								key={item}
+								value={index}
+							>
+								{item}
+							</option>
+						))}
+					</select>
+				</div>
 				<button
 					onClick={onSaveClick}
 					className={`px-4 py-2 rounded select-none ${
@@ -123,12 +148,17 @@ const Main = () => {
 				</button>
 			</section>
 
-			<section className="text-slate-900 flex gap-4 flex-col p-4 lg:p-0 lg:flex-row">
+			<section
+				className={`text-slate-900 flex gap-4 ${
+					width > 738 && "lg:flex-col"
+				} flex-col p-4 lg:p-0 lg:flex-row scrollbar-thin scrollbar-thumb-blue-600`}
+			>
 				<textarea
-					ref={inputRef}
+					// ref={inputRef}
 					placeholder="Paste your code here..."
 					onChange={(e) => {
 						setCode(() => e.target.value);
+						setWidth(toImage.current.offsetWidth);
 					}}
 					className="w-full appearance-none resize-none bg-slate-100 rounded outline-none p-8 scrollbar-thin"
 				></textarea>
@@ -151,6 +181,9 @@ const Main = () => {
 							</SyntaxHighlighter>
 						</div>
 					</div>
+					<p className="text-slate-500 text-center mt-4 text-sm">
+						https://codeimager.netlify.app
+					</p>
 				</div>
 			</section>
 		</main>
