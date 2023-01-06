@@ -1,16 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 
-const keywords = ["function", "var", "if", "else"];
-const variables = /\b[a-zA-Z_][a-zA-Z0-9_]*\b/g;
-const comments = /\/\/.*|\/\*[\s\S]*?\*\//g;
+// const keywords = ["function", "var", "if", "else"];
+// const variables = /\b[a-zA-Z_][a-zA-Z0-9_]*\b/g;
+// const comments = /\/\/.*|\/\*[\s\S]*?\*\//g;
 
 const Main = () => {
 	const [langServer, setLangServer] = useState(null);
 	const [code, setCode] = useState("");
-	// const inputRef = useRef(null);
+	const inputRef = useRef(null);
 
-	let highlightedCode = code;
+	// let highlightedCode = code;
 
 	useEffect(() => {
 		console.log(langServer);
@@ -35,25 +35,25 @@ const Main = () => {
 			});
 	};
 
-	// useEffect(() => {
-	// 	// Reset height - important to shrink on delete
-	// 	inputRef.current.style.height = "inherit";
-	// 	// Set height
-	// 	inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
-	// }, [code]);
+	useEffect(() => {
+		// Reset height - important to shrink on delete
+		inputRef.current.style.height = "inherit";
+		// Set height
+		inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+	}, [code]);
 
-	highlightedCode = highlightedCode.replace(
-		comments,
-		(match) => `<span class="comment">${match}</span>`
-	);
-	highlightedCode = highlightedCode.replace(
-		keywords,
-		(match) => `<span class="keyword">${match}</span>`
-	);
-	highlightedCode = highlightedCode.replace(
-		variables,
-		(match) => `<span class="variable">${match}</span>`
-	);
+	// highlightedCode = highlightedCode.replace(
+	// 	comments,
+	// 	(match) => `<span class="comment">${match}</span>`
+	// );
+	// highlightedCode = highlightedCode.replace(
+	// 	keywords,
+	// 	(match) => `<span class="keyword">${match}</span>`
+	// );
+	// highlightedCode = highlightedCode.replace(
+	// 	variables,
+	// 	(match) => `<span class="variable">${match}</span>`
+	// );
 
 	return (
 		<main className="container mx-auto my-8 space-y-8">
@@ -92,7 +92,7 @@ const Main = () => {
 					onChange={(e) => {
 						setCode(() => e.target.value);
 					}}
-					className="appearance-none resize-none bg-slate-100 w-full rounded outline-none p-8"
+					className="w-full appearance-none resize-none bg-slate-100 rounded outline-none p-8"
 				></textarea>
 				<div
 					ref={toImage}
@@ -104,17 +104,17 @@ const Main = () => {
 							<div className="bg-amber-500"></div>
 							<div className="bg-green-500"></div>
 						</div>
-						{/* <textarea
+						<textarea
 							placeholder="code preview"
 							ref={inputRef}
 							disabled
 							defaultValue={code}
 							className="python resize-none selection:bg-transparent appearance-none bg-black text-slate-100 w-full rounded min-h-[20rem outline-none px-8 cursor-context-menu"
-						/> */}
-						<pre className="text-white px-8 pb-6">
-							{/* <code>{code}</code> */}
-							<code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
-						</pre>
+						/>
+						{/* <pre className="text-white px-8 pb-6"> */}
+						{/* <code>{code}</code> */}
+						{/* <code dangerouslySetInnerHTML={{ __html: highlightedCode }} /> */}
+						{/* </pre> */}
 					</div>
 				</div>
 			</section>
