@@ -1,7 +1,7 @@
 import { BsGithub } from "react-icons/bs";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const Navbar = ({ users }) => {
 	return (
 		<nav className="py-4">
 			<div className="flex justify-between items-center container mx-auto border-b p-4">
@@ -16,7 +16,9 @@ const Navbar = () => {
 				<a
 					target="_blank"
 					href="https://github.com/maulydev"
+					className="flex gap-4 items-center"
 				>
+					<span className="text-sm">Visitors: {users}</span>
 					<BsGithub className="text-2xl" />
 				</a>
 			</div>

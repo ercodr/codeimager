@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { AiFillCaretDown } from "react-icons/all";
+
 import {
 	dark,
 	a11yDark,
@@ -51,11 +53,6 @@ const Main = () => {
 	const [code, setCode] = useState("");
 	const [width, setWidth] = useState(null);
 	const [theme, setTheme] = useState(themes[0]);
-	const inputRef = useRef(null);
-
-	useEffect(() => {
-		console.log(langServer);
-	}, [langServer]);
 
 	const onSaveClick = () => {
 		if (code === "") {
@@ -79,18 +76,19 @@ const Main = () => {
 			<section className="flex justify-between flex-col gap-4 sm:flex-row p-4 lg:p-0">
 				<div className="flex gap-2 flex-col md:flex-row">
 					<select
-						defaultValue={"python"}
+						defaultValue={"default"}
 						onChange={(e) => {
 							setLangServer(() => e.target.value);
 						}}
 						className="text-slate-100 bg-slate-900 border select-none outline-none px-4 py-2 rounded appearance-none
-						scrollbar-thin scrollbar-thumb-blue-600"
+						scrollbar-thin scrollbar-thumb-blue-600 cursor-pointer"
 					>
 						<option
 							value={"default"}
 							disabled
+							className=""
 						>
-							Language Support
+							Select language
 						</option>
 						<option value="python">Python</option>
 						<option value="javascript">JavaScript</option>
@@ -126,7 +124,7 @@ const Main = () => {
 							value={"default"}
 							disabled
 						>
-							Switch theme
+							Select theme
 						</option>
 						{themesStr.map((item, index) => (
 							<option
@@ -154,7 +152,6 @@ const Main = () => {
 				} flex-col p-4 lg:p-0 lg:flex-row scrollbar-thin scrollbar-thumb-blue-600`}
 			>
 				<textarea
-					// ref={inputRef}
 					placeholder="Paste your code here..."
 					onChange={(e) => {
 						setCode(() => e.target.value);
