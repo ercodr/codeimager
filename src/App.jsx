@@ -20,9 +20,9 @@ const App = () => {
 	useEffect(() => {
 		if (getCookie("visited") == null) {
 			document.cookie = `visited=true`;
-			axios("http://127.0.0.1:8000/");
+			axios("http://ercodr.pythonanywhere.com/setuservisited");
 		}
-		axios("http://127.0.0.1:8000/users/")
+		axios("http://ercodr.pythonanywhere.com/users/")
 			.then((res) => res.data)
 			.then((data) => setUsers(data["Visitor Count"]));
 	}, []);
